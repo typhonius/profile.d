@@ -1,0 +1,34 @@
+# Anything to do with the prompt
+
+BGREEN='\[\033[1;32m\]'
+GREEN='\[\033[1;32m\]'
+BRED='\[\033[1;31m\]'
+RED='\[\033[1;31m\]'
+BBLUE='\[\033[1;34m\]'
+BLUE='\[\033[0;34m\]'
+NORMAL='\[\033[00m\]'
+PURPLE='\[\033[1;35m\]'
+
+if [[ $EUID -ne 0 ]]; then
+  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n ಠ_ಠ \$${NORMAL} "
+else
+  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n DANGER ROOT ROBINSON #${NORMAL} "
+fi
+
+function check_readonly() {
+  [[ ! -w . ]] && echo -e " [ro] "
+}
+
+# These functions adapted from: http://hocuspokus.net/2009/07/add-git-and-svn-branch-to-bash-prompt/
+function parse_git_branch () {
+  git rev-parse --symbolic-full-name --abbrev-ref HEAD 2> /dev/null | sed 's#\(.*\)# (git::\1)#'
+}
+function parse_svn_branch() {
+  parse_svn_url | sed -e 's#^'" $(parse_svn_repository_root)"'##g' | awk '{print " (svn::"$1")" }'
+}
+function parse_svn_url() {
+  svn info 2>/dev/null | sed -ne 's#^URL: ##p' | awk '{print " "$1"" }'
+}
+function parse_svn_repository_root() {
+  svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+}

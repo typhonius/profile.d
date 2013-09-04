@@ -1,0 +1,133 @@
+# Contains all custom functions
+
+when() {
+  if [ "$#" -eq 0 ]; then
+    echo "Using current time."
+    TIME=`date +%s`
+  else
+    TIME=$1
+  fi
+  perl -e "print 'Local: '. scalar(localtime($TIME))"; echo
+  perl -e "print 'UTC: ' . scalar(gmtime($TIME))"; echo
+}
+
+# Puts an ls with your cd
+cd () 
+{ 
+    if [[ -z "$1" ]] ; then
+      builtin cd "$HOME";
+    else
+      builtin cd "$*";
+    fi
+    if [ $? -ne 0 ]; then
+        if [ ! -x "$1" ] && [ -d "$1" ]; then
+            echo -n "Cannot access dir, become root? ";
+            read foo;
+            if [[ $foo = "y" ]] || [[ $foo = "Y" ]]; then
+                sudo bash;
+                return;
+            else
+                builtin cd "$*";
+                return;
+            fi;
+        fi;
+    else
+        echo;
+        ls -lrtha;
+    fi
+}
+
+pskill() {
+        local pid
+        pid=$(ps -ax | grep $1 | grep -v grep | gawk '{ print $1 }')
+        echo -n "killing $1 (process $pid)..."
+        kill -9 $pid
+        echo "slaughtered."
+}
+
+ttl () {
+  echo "Finding TTL for $1"
+  NS=`dig $1 NS +noall +short`
+  arr=$(echo $NS | tr " " "\n")
+  for x in $arr
+    do
+     # if [ "$x" != "$1." ]; then
+        echo NameServer: $x
+        dig @$x $1 +noall +answer | grep $1 | awk {'print $2'}
+     # fi
+    done
+}
+
+sshcheck () {
+  if [ "$#" -eq 0 ]; then
+    echo "Enter some servers"
+  else
+    for arg; do
+      echo "Checking $arg" ;
+      ssh $arg "uptime" ;
+    done
+  fi
+}
+
+extract () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1        ;;
+      *.tar.gz)    tar xzf $1     ;;
+      *.bz2)       bunzip2 $1       ;;
+      *.rar)       rar x $1     ;;
+      *.gz)        gunzip $1     ;;
+      *.tar)       tar xf $1        ;;
+      *.tbz2)      tar xjf $1      ;;
+      *.tgz)       tar xzf $1       ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1    ;;
+      *)           echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# create .tar.gz archive
+compress() {
+  tar -cvzf $1.tar.gz $1
+}
+
+#dirsize - finds directory sizes and lists them for the current directory
+dirsize ()
+{
+du -shx * .[a-zA-Z0-9_]* 2> /dev/null | \
+egrep '^ *[0-9.]*[MG]' | sort -n > /tmp/list
+egrep '^ *[0-9.]*M' /tmp/list
+egrep '^ *[0-9.]*G' /tmp/list
+rm -rf /tmp/list
+}
+
+psgrep() {
+        if [ ! -z $1 ] ; then
+                echo "Grepping for processes matching $1..."
+                ps aux | grep $1 | grep -v grep
+        else
+                echo "!! Need name to grep for"
+        fi
+}
+
+# Copy a file then follow it
+cpg (){
+  if [ -d "$2" ];then
+    cp $1 $2 && cd $2
+  else
+    cp $1 $2
+  fi
+}
+
+# Move a file then follow it
+mvg (){
+  if [ -d "$2" ];then
+    mv $1 $2 && cd $2
+  else
+    mv $1 $2
+  fi
+}
