@@ -2,8 +2,8 @@
 
 when() {
   if [ "$#" -eq 0 ]; then
-    echo "Using current time."
     TIME=`date +%s`
+    echo "Using current time: $TIME"
   else
     TIME=$1
   fi
