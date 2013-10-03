@@ -1,5 +1,10 @@
 # Contains all custom functions
 
+# Returns your external IP
+myip() {
+  curl -ss http://checkip.dyndns.com | sed -e 's/<[^>]*>/ /g'
+}
+
 when() {
   if [ "$#" -eq 0 ]; then
     TIME=`date +%s`
