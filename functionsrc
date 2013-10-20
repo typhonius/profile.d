@@ -3,7 +3,11 @@
 # Text to speech
 t2s() { 
   wget -q -U Mozilla -O /tmp/$(tr ' ' _ <<< "$1"| cut -b 1-15).mp3 "http://translate.google.com/translate_tts?ie=UTF-8&tl=en-au&q=$(tr ' ' + <<< "$1")";
-  afplay /tmp/$(tr ' ' _ <<< "$1"| cut -b 1-15).mp3
+  if hash afplay 2>/dev/null; then
+    afplay /tmp/$(tr ' ' _ <<< "$1"| cut -b 1-15).mp3
+  else
+    mplayer /tmp/$(tr ' ' _ <<< "$1"| cut -b 1-15).mp3
+  fi
 }
 
 # Returns your external IP
