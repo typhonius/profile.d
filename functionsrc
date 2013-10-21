@@ -12,7 +12,7 @@ t2s() {
 
 # Returns your external IP
 myip() {
-  curl -ss http://checkip.dyndns.com | sed -e 's/<[^>]*>/ /g'
+  curl ifconfig.me
 }
 
 when() {
