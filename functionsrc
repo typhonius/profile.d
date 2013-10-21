@@ -84,30 +84,49 @@ sshcheck () {
   fi
 }
 
-extract () {
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1        ;;
-      *.tar.gz)    tar xzf $1     ;;
-      *.bz2)       bunzip2 $1       ;;
-      *.rar)       rar x $1     ;;
-      *.gz)        gunzip $1     ;;
-      *.tar)       tar xf $1        ;;
-      *.tbz2)      tar xjf $1      ;;
-      *.tgz)       tar xzf $1       ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1  ;;
-      *.7z)        7z x $1    ;;
-      *)           echo "'$1' cannot be extracted via extract()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
+x () {
+  if [[ -z "$1" ]] ; then
+    print "No files given."
+    return
   fi
+
+  for f in $* ; do
+    if [[ -f $f ]]; then
+      case $f in
+        *.tar.bz2) command tar xjf $f  ;;
+        *.tar.gz)  command tar xzf $f  ;;
+        *.bz2)     command bunzip2 $f  ;;
+        *.rar)     command unrar x $f  ;;
+        *.gz)      command gunzip $f   ;;
+        *.tar)     command tar xf $f   ;;
+        *.tbz2)    command tar xjf $f  ;;
+        *.tgz)     command tar xzf $f  ;;
+        *.zip)     command unzip $f    ;;
+        *.Z)       command uncompress $f ;;
+        *.7z)      command 7z x $f     ;;
+        *.xz)      command unxz -vk $f   ;;
+        *.lzma)    command unlzma -vk $f ;;
+        *)     print "'$f' cannot be extracted via x()" ;;
+      esac
+    else
+      print "'$f' is not a valid file"
+    fi
+  done
 }
 
 # create .tar.gz archive
-compress() {
-  tar -cvzf $1.tar.gz $1
+com() {
+  if [[ -z "$1" ]] ; then
+    print "No files given."
+    return
+  fi
+  for f in $* ; do
+    if [[ -f $f ]]; then
+      command tar -cvzf $f.tar.gz $f
+    else
+      print "'$f' is not a valid file"
+    fi
+  done
 }
 
 #dirsize - finds directory sizes and lists them for the current directory
