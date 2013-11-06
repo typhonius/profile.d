@@ -1,5 +1,42 @@
 # Contains all custom functions
 
+# Executes commands against a number of servers
+apdsh() {
+  OPTIND=1
+  sitename=
+  type=
+  command=
+    while getopts "s:t:c:" opt; do
+      case "$opt" in
+      s)
+        sitename=$OPTARG
+        ;;
+      c)  
+        command=$OPTARG
+        ;;
+      t)  
+        type=$OPTARG
+        ;;
+      esac
+    done
+    if [[ -z $command ]] || [ -z $type ] || [ -z $sitename ]; then
+      echo "Enter a sitename a command and a server type."
+      echo "Usage should be:"
+      echo "* apdsh -s eeamalone -t web -c ls #To execute ls against all eeamalone webs"
+      echo "* apdsh -s eeconeil.dev -t bal -c netstat -nlept #To execute netstat against all eeconeill bals"
+      echo "* apdsh -s eescooper.prod -t web,ded -c touch foo #To touch the file foo on all scooper prod deds and bals"
+    else
+      echo "Running $command against all $type servers on $sitename :>"
+      filter=$type
+      if [ $type == 'web' ] || [ $type == 'staging' ] || [ $type == 'ded' ]; then
+        filter='web'
+      fi
+      pdsh -w `aht @$sitename --show=$filter | awk {'print $1'} | grep $type | sed -e 's/^[ \t]*//' | tr '\n' ','` $command
+    fi
+
+  shift $((OPTIND-1))
+}
+
 # Text to speech
 t2s() { 
   wget -q -U Mozilla -O /tmp/$(tr ' ' _ <<< "$1"| cut -b 1-15).mp3 "http://translate.google.com/translate_tts?ie=UTF-8&tl=en-au&q=$(tr ' ' + <<< "$1")";
@@ -12,7 +49,7 @@ t2s() {
 
 # Returns your external IP
 myip() {
-  curl -ss http://checkip.dyndns.com | sed -e 's/<[^>]*>/ /g'
+  curl ifconfig.me
 }
 
 when() {
