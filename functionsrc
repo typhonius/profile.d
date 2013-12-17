@@ -1,5 +1,17 @@
 # Contains all custom functions
 
+# Returns a random MAC address
+newmac() {
+  MAC=`openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'`
+	echo "Setting MAC address to $MAC"
+	sudo ifconfig en0 ether $MAC
+}
+
+# Runs a du -h and orders the results by actual size rather than numeric size
+dusort() {
+  perl -e'%h=map{/.\s/;99**(ord$&&7)-$`,$_}`du -sh *`;print@h{sort%h}';
+}
+
 # Executes commands against a number of servers
 apdsh() {
   OPTIND=1
