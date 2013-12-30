@@ -1,5 +1,16 @@
 # Contains all custom functions
 
+# Downloads and phpizes composer
+compose() {
+  curl -sS https://getcomposer.org/installer | php
+	echo "Use 'php composer.phar install' to install."
+}
+
+# Starts a simple http server at the current path
+http() {
+  python -m SimpleHTTPServer
+}
+
 # Returns a random MAC address
 newmac() {
   MAC=`openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//'`
