@@ -10,9 +10,9 @@ NORMAL='\[\033[00m\]'
 PURPLE='\[\033[1;35m\]'
 
 if [[ $EUID -ne 0 ]]; then
-  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n ಠ_ಠ \$${NORMAL} "
+  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n ⁝(๑⑈௰⑈)♡  \$${NORMAL} "
 else
-  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n DANGER ROOT ROBINSON #${NORMAL} "
+  PS1="${BLUE}[\$(date -u)]${PURPLE}[\D{%Z} \d \t] ${RED}\u${BLUE}@${GREEN}\h${BRED}${BLUE} (${RED}\w${BLUE})${RED}\$(check_readonly)${NORMAL}\$(parse_git_branch)\$(parse_svn_url)\$(parse_svn_branch) ${BLUE}\!${BRED} \n DANGER ZONE #${NORMAL} "
 fi
 
 function check_readonly() {
