@@ -1,5 +1,11 @@
 # System-wide .bashrc file for interactive bash(1) shells.
 
+## Completions
+# SSH Host names
+if [ -f $HOME/.ssh/config ]; then
+  complete -o default -o nospace -W "$(awk '/^Host / {print $2}' < $HOME/.ssh/config)" scp sftp ssh
+fi
+
 if [ -z "$PS1" ]; then
    return
 fi
