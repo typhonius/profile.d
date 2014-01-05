@@ -51,11 +51,11 @@ apdsh() {
     else
       echo "Running $command against all $type servers on $sitename :>"
       filter=$type
-      if [ $type == 'web' ] || [ $type == 'staging' ] || [ $type == 'ded' ]; then
-        filter='web,staging'
+      if [ $type == 'web' ] || [ $type == 'staging' ] || [ $type == 'ded' ] || [ $type == 'managed' ]; then
+        filter='web,staging,ded,managed'
       fi
       if [ $type == 'db' ]; then
-        type='ded\|fsdb\|fsdbmesh'
+        type='ded\|fsdb\|fsdbmesh\|dbmaster'
       fi
       pdsh -w `aht @$sitename --show=$filter | awk {'print $1'} | grep $type | sed -e 's/^[ \t]*//' | tr '\n' ','` $command
     fi
