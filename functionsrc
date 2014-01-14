@@ -20,7 +20,9 @@ newmac() {
 
 # Runs a du -h and orders the results by actual size rather than numeric size
 dusort() {
+  TOTAL=`du -sh .`
   perl -e'%h=map{/.\s/;99**(ord$&&7)-$`,$_}`du -sh *`;print@h{sort%h}';
+	echo "\nTotal size: $TOTAL"
 }
 
 # Executes commands against a number of servers
