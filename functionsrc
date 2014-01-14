@@ -27,6 +27,10 @@ dusort() {
 
 # Executes commands against a number of servers
 apdsh() {
+  if [ -z `which pdsh` ]; then
+    echo "pdsh must be installed before using apdsh."
+    exit 1
+  fi
   OPTIND=1
   sitename=
   type=
