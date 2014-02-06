@@ -51,9 +51,9 @@ apdsh() {
     if [[ -z $command ]] || [ -z $type ] || [ -z $sitename ]; then
       echo "Enter a sitename a command and a server type."
       echo "Usage should be:"
-      echo "* apdsh -s eeamalone -t web -c ls #To execute ls against all eeamalone webs"
-      echo "* apdsh -s eeconeill.dev -t bal -c netstat -nlept #To execute netstat against all eeconeill bals"
-      echo "* apdsh -s eescooper.prod -t web,ded -c touch foo #To touch the file foo on all scooper prod deds and bals"
+      echo "* apdsh -s eeamalone -t web -c "ls" #To execute ls against all eeamalone webs"
+      echo "* apdsh -s eeconeill.dev -t bal -c "netstat -nlept" #To execute netstat against all eeconeill bals"
+      echo "* apdsh -s eescooper.prod -t web,ded -c "touch foo" #To touch the file foo on all scooper prod deds and bals"
     else
       echo "Running $command against all $type servers on $sitename :>"
       filter=$type
