@@ -15,7 +15,7 @@ alias zgrep='zgrep --color=auto'
 alias ls='ls -G'
 alias ll='ls -alFrth'
 alias la='ls -A'
-alias l='ls -CF'
+alias l='ll'
 
 # General aliases
 alias dr='drush'
