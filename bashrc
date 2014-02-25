@@ -29,7 +29,8 @@ export LANGUAGE=en_US.UTF-8
 # Editors
 export EDITOR=vim
 
-shopt -s histappend checkwinsize dotglob   # append to history, don't overwrite it, ensure * includes dot files
+# Append to history, don't overwrite it, ensure * includes dot files
+shopt -s histappend checkwinsize dotglob
 
 # Tell the terminal about the working directory at each prompt.
 if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
