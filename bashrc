@@ -13,8 +13,10 @@ fi
 ## Environment Variables
 # Timestamps bash history files. Format: YYYY-MM-DD HH:mm:SS
 export HISTTIMEFORMAT='%F %T '
+
 # No duplicate entries in bash history
 export HISTCONTROL=ignoredups:erasedups
+
 # Keep a HYUGE history
 export HISTSIZE=10000000
 export HISTFILESIZE=10000000
@@ -23,6 +25,9 @@ export HISTFILESIZE=10000000
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
+
+# Editors
+export EDITOR=vim
 
 shopt -s histappend checkwinsize dotglob   # append to history, don't overwrite it, ensure * includes dot files
 
