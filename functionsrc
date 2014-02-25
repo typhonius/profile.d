@@ -1,5 +1,15 @@
 # Contains all custom functions
 
+# Checks the MaxMind db for which country an IP address originates
+geo() {
+  if [ -z `which geoiplookup` ]; then
+    echo "geoiplookup must be installed before using geo."
+    exit 1
+  fi
+
+  geoiplookup -f /usr/local/share/GeoIP/GeoIP.dat $1
+}
+
 # Downloads and phpizes composer
 compose() {
   curl -sS https://getcomposer.org/installer | php
