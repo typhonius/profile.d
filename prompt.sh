@@ -40,7 +40,7 @@ function ropath() {
    
 # Check to see if the user is root or not.
 if [ $EUID -ne 0 ] ; then
-  PS1="${LBLUE}[${GREEN}\$(date +'%Y-%m-%d %H:%M:%S')${LBLUE}] ${RED}\u${BLUE}@${DGREEN}\h${LBLUE}:\$(ropath)\w${NORMAL}${TURQUOISE}\$(parse_git_branch)\$(parse_svn_branch)\n${PURPLE} \\$ ${NORMAL}"
+  PS1="┌─${LBLUE}[${GREEN}\$(date +'%Y-%m-%d %H:%M:%S')${LBLUE}] ${RED}\u${BLUE}@${DGREEN}\h${LBLUE}:\$(ropath)\w${NORMAL}${TURQUOISE}\$(parse_git_branch)\$(parse_svn_branch)\n${PURPLE}└─\\$ ${NORMAL}"
 else
   PS1="${YELLOWONRED}\u@\h${NORMAL}${LBLUE}:${LRED}\w${TURQUOISE}\$(parse_git_branch)\$(parse_svn_branch)${PURPLE} \\$ ${NORMAL}"
 fi
