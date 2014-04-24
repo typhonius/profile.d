@@ -50,30 +50,32 @@ apdsh() {
       s)
         sitename=$OPTARG
         ;;
-      c)  
+      c)
         command=$OPTARG
         ;;
-      t)  
+      t)
         type=$OPTARG
         ;;
       esac
     done
     if [[ -z $command ]] || [ -z $type ] || [ -z $sitename ]; then
-      echo "Enter a sitename a command and a server type."
-      echo "Usage should be:"
-      echo "* apdsh -s eeamalone -t web -c "ls" #To execute ls against all eeamalone webs"
-      echo "* apdsh -s eeconeill.dev -t bal -c "netstat -nlept" #To execute netstat against all eeconeill bals"
-      echo "* apdsh -s eescooper.prod -t web,ded -c "touch foo" #To touch the file foo on all scooper prod deds and bals"
+      echo 'Enter a sitename a command and a server type. The server type may be web, db, or bal.'
+      echo 'Usage should be:'
+      echo '* apdsh -s eeamalone -t web -c "ls" #To execute ls against all eeamalone webs'
+      echo '* apdsh -s eeconeill.dev -t bal -c "netstat -nlept" #To execute netstat against all eeconeill bals'
+      echo '* apdsh -s eescooper.prod -t db -c "touch foo" #To touch the file foo on all eescooper prod db class servers.'
     else
       echo "Running $command against all $type servers on $sitename :>"
       filter=$type
       if [ $type == 'web' ] || [ $type == 'staging' ] || [ $type == 'ded' ] || [ $type == 'managed' ]; then
-        filter='web,staging,ded,managed'
+        filter='web'
+        servermatch='(web|staging|ded|managed)'
       fi
       if [ $type == 'db' ]; then
-        type='ded\|fsdb\|fsdbmesh\|dbmaster'
+        filter='db'
+        servermatch='(ded|fsdb|fsdbmesh|dbmaster)'
       fi
-      pdsh -w `aht @$sitename --show=$filter | awk {'print $1'} | grep $type | sed -e 's/^[ \t]*//' | tr '\n' ','` $command
+      pdsh -w `aht @$sitename --show=$filter | awk {'print $1'} | egrep "^${servermatch}" | sed -e 's/^[ \t]*//' | tr '\n' ','` $command
     fi
 
   shift $((OPTIND-1))
