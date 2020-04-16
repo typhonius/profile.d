@@ -1,4 +1,3 @@
-
 # Directory navigation aliases
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -19,12 +18,13 @@ alias l='ll'
 
 # General aliases
 alias dr='drush'
-alias ssh='ssh -X -A'
-alias vi=vim
 alias wget='wget -c'
-alias cim='vim'
-alias back='cd $OLDPWD'
 alias c='curl -kILXGET'
 alias rm='rm -iv'
-alias df='df -h'
 alias plz='source ~/.profile'
+alias vi=vim
+alias cim='vim'
+alias back='cd $OLDPWD'
+
+# Application aliases
+alias sublime='open -a "Sublime Text"'
